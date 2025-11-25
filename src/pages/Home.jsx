@@ -5,7 +5,7 @@ import StatUI from "../components/StatComponents/StatUI";
 const Home = () => {
 
     const [wordAPI, setWordAPI] = useState(null);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
 
 
     const [currentWord, setCurrentWord] = useState([]);
