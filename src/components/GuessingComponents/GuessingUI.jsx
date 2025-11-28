@@ -96,7 +96,7 @@ const GuessingUI = ({ currentWord, listOfMonsters, maxLength, setHasWon }) => {
     }, [currentGuess, setLettersTyped]);
 
     useEffect(() => {
-        console.log("test", guessHistory);
+        // console.log("test", guessHistory);
     }, [guessHistory]);
 
     return (<div className="guessingUI min-w-[250px] min-h-[250px] max-w-[90%]">

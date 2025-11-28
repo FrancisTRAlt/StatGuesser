@@ -2,20 +2,12 @@ import React, { useState, useEffect } from "react";
 import BasicStats from "./BasicStats";
 import StatModifier from "./StatModifiers";
 import ExtraStats from "./ExtraStats";
-import StatToggle from "./StatToggle";
 import TraitsAndActions from "./TraitsAndActions";
-import { BsChevronDown } from "react-icons/bs";
+import StatToggle from "./HelperComponents/StatToggle";
+import CensorAnswer from "./HelperComponents/CensorAnswer";
 
 const StatUI = ({ currentWordDetails, reveal }) => {
     const [wordDetails, setWordDetails] = useState();
-    const [stats, setStats] = useState({});
-
-    const toggleStat = (statToToggle) => {
-        setStats(stat => ({
-            ...stat,
-            [statToToggle]: !stat[statToToggle]
-        }))
-    }
 
     const flattingDictionary = (list) => {
         if (!list) return ''; // or return a fallback string
@@ -29,23 +21,38 @@ const StatUI = ({ currentWordDetails, reveal }) => {
         return wordDetails?.[type];
     };
 
+    const getType = () => {
+        return get("type").replace(
+            /\w\S*/g,
+            text => text.toLowerCase() === "of" ? "of" : text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+        );
+    }
+
     useEffect(() => {
         setWordDetails(currentWordDetails);
     }, [currentWordDetails]);
 
     useEffect(() => {
-        console.log(wordDetails, " dfsdfsdf");
+        // console.log(wordDetails, " dfsdfsdf");
     }, [wordDetails]);
 
 
     return (<section className="mt-[2em] px-10 w-[60em] md:w-[80%]">
         {wordDetails && (<div className="grid grid-cols-2">
             <div className="flex justify-center col-span-2 mb-4">
-                
-            <section className="">
-                <h2>Name: {get("name")}</h2>
-                <h2>Type: {get("type")}</h2>
-            </section>
+
+                <section>
+                    <h2 className="space-x-2"><span className="font-[600]">Name:</span>
+                        <CensorAnswer
+                            censor={!reveal}
+                            answer={get("name")}
+                            description={get("name")}
+                        />
+                    </h2>
+                    <h2 className="space-x-2"><span className="font-[600]">Type:</span>
+                        <span>{getType()}</span>
+                    </h2>
+                </section>
             </div>
             <div className="mr-10">
                 <StatToggle className="mb-3" title={"Stats"}>
@@ -76,6 +83,8 @@ const StatUI = ({ currentWordDetails, reveal }) => {
                         xp={get("xp")}
                         pb={get("proficiency_bonus")}
                         flattingDictionary={flattingDictionary}
+                        answer = {get("name")}
+                        censor={!reveal}
                     />
                 </StatToggle>
             </div>

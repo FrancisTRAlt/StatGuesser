@@ -45,7 +45,7 @@ const GuessAttempt = ({ guess, answer, reveal, onComplete }) => {
 
     }, [guess, answer, reveal]);
 
-    useEffect(() => { console.log(validateGuess) }, [reveal])
+    // useEffect(() => { console.log(validateGuess) }, [reveal])
 
     return (<>
         <span className="flex">

@@ -8,7 +8,7 @@ const StatModifiers = ({ strength, dexterity, constitution, intelligence, wisdom
 
     const modifierStyle = "mr-[10px] font-[600]";
 
-    return (<>
+    return (<section>
         <table>
             <tbody>
                 <tr className="grid grid-cols-3 gap-4">
@@ -23,7 +23,7 @@ const StatModifiers = ({ strength, dexterity, constitution, intelligence, wisdom
                 </tr>
             </tbody>
         </table>
-    </>);
+    </section>);
 };
 
 export default StatModifiers;
