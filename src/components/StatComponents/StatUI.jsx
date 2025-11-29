@@ -4,9 +4,9 @@ import StatModifier from "./StatModifiers";
 import ExtraStats from "./ExtraStats";
 import TraitsAndActions from "./TraitsAndActions";
 import StatToggle from "./HelperComponents/StatToggle";
-import CensorAnswer from "./HelperComponents/CensorAnswer";
+import StatHeader from "./StatHeader";
 
-const StatUI = ({ currentWordDetails, reveal }) => {
+const StatUI = ({ currentWordDetails, reveal, attemptCount, maxGuesses }) => {
     const [wordDetails, setWordDetails] = useState();
 
     const flattingDictionary = (list) => {
@@ -40,19 +40,13 @@ const StatUI = ({ currentWordDetails, reveal }) => {
     return (<section className="mt-[2em] px-10 w-[60em] md:w-[80%]">
         {wordDetails && (<div className="grid grid-cols-2">
             <div className="flex justify-center col-span-2 mb-4">
-
-                <section>
-                    <h2 className="space-x-2"><span className="font-[600]">Name:</span>
-                        <CensorAnswer
-                            censor={!reveal}
-                            answer={get("name")}
-                            description={get("name")}
-                        />
-                    </h2>
-                    <h2 className="space-x-2"><span className="font-[600]">Type:</span>
-                        <span>{getType()}</span>
-                    </h2>
-                </section>
+                <StatHeader
+                    reveal={reveal}
+                    answer={get("name")}
+                    type={get("type")}
+                    attemptCount={attemptCount}
+                    maxGuesses={maxGuesses}
+                />
             </div>
             <div className="mr-10">
                 <StatToggle className="mb-3" title={"Stats"}>
@@ -83,7 +77,7 @@ const StatUI = ({ currentWordDetails, reveal }) => {
                         xp={get("xp")}
                         pb={get("proficiency_bonus")}
                         flattingDictionary={flattingDictionary}
-                        answer = {get("name")}
+                        answer={get("name")}
                         censor={!reveal}
                     />
                 </StatToggle>

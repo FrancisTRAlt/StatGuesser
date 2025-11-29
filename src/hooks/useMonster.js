@@ -37,9 +37,10 @@ const useMonster = () => {
 
         // Fetch monster details
         const detailRes = await fetch(
-          `https://www.dnd5eapi.co/api/2014/monsters/${monsterIndex}`
+          // `https://www.dnd5eapi.co/api/2014/monsters/${monsterIndex}`
           // `https://www.dnd5eapi.co/api/2014/monsters/ancient-black-dragon`
-          // `https://www.dnd5eapi.co/api/2014/monsters/young-brass-dragon`
+          `https://www.dnd5eapi.co/api/2014/monsters/wereboar-hybrid`
+          // `https://www.dnd5eapi.co/api/2014/monsters/vampire-mist`
           // `https://www.dnd5eapi.co/api/2014/monsters/blink-dog`
         );
         const detailData = await detailRes.json();

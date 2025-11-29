@@ -4,16 +4,6 @@ import CensorAnswer from "./HelperComponents/CensorAnswer";
 
 const TraitsAndActions = ({ data, answer, censor }) => {
 
-    const getCensoredDesciption = (desc) => {
-        let wordsToCensor = answer.split(" ").map(w => w.toLowerCase());;
-        let result = desc;
-        for (let i = 0; i < wordsToCensor.length; i++) {
-            const regex = new RegExp(wordsToCensor[i], "gi");
-            result = result.replace(regex, "???");
-        }
-        return result;
-    };
-
     const renderInfo = (info, index) => {
 
         const name = info?.name;
@@ -21,7 +11,8 @@ const TraitsAndActions = ({ data, answer, censor }) => {
 
         return (
             <div key={index} className="space-x-2">
-                <span className="font-[600]">{name}.</span>
+                {/* <span className="font-[600]">{name}.</span> */}
+                <span className="font-[600]"><CensorAnswer censor={censor} answer={answer} description={name}/>.</span>
                 <CensorAnswer censor={censor} answer={answer} description={desc}/>
             </div>
         )

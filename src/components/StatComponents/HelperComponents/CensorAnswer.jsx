@@ -1,14 +1,15 @@
 import React from "react";
 import { Tooltip } from "@material-tailwind/react";
 
-const CensorAnswer = ({ censor, answer, description }) => {
+const CensorAnswer = ({ className, censor, answer, description }) => {
 
-
-    const words = answer.split(" ");
+    // Split answer into comma and space
+    const words = answer.split(/[ ,]+/);
+    
 
     const getCensoredDesciption = () => {
 
-        // regex for words split
+        // Regex for words split
         const regex = new RegExp(`(${words.join("|")})`, "gi");
 
         // Split description by words in answer
@@ -19,14 +20,6 @@ const CensorAnswer = ({ censor, answer, description }) => {
     };
 
     const renderCensor = (content, key) => {
-        // if(censor) return (
-        //     <Tooltip key={key}
-        //         className="bg-gray-700 text-white p-1 text-sm"
-        //         content="This Content Is Hidden">
-        //         <span className="text-gray-500 underline decoration-dotted">???</span>
-        //     </Tooltip>
-        // );
-        // return <span className="text-green-600" key={key}>{content}</span>;
 
         return (<span key={key}>
             <span
@@ -49,7 +42,7 @@ const CensorAnswer = ({ censor, answer, description }) => {
         </span>)
     }
 
-    return (<span>
+    return (<span className={className}>
         {getCensoredDesciption().map((segment, i) => {
             if (!segment || typeof segment !== "string") return null;
             if (segment === " ") return " ";

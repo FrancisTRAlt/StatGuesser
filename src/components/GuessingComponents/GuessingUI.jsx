@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import GuessAttempt from "./GuessAttempt";
 
-const GuessingUI = ({ currentWord, listOfMonsters, maxLength, setHasWon }) => {
+const GuessingUI = ({ currentWord, listOfMonsters, maxLength, maxGuesses, setHasWon, setHasLost, setAttemptCount }) => {
     const [guessHistory, setGuessHistory] = useState([]);
     const [currentGuess, setCurrentGuess] = useState([]);
     const [lettersTyped, setLettersTyped] = useState(0);
@@ -11,14 +11,16 @@ const GuessingUI = ({ currentWord, listOfMonsters, maxLength, setHasWon }) => {
     const [isCorrectWord, setIsCorrectWord] = useState(false);
 
     const MAX_LETTERS_ALLOWED = maxLength;
-    const MAX_GUESSES_ALLOWED = 6;
+    const MAX_GUESSES_ALLOWED = maxGuesses;
 
     const findMonster = (word) => {
-        return listOfMonsters.includes(word.join(""));
+        return listOfMonsters.includes(word.join(''));
     };
 
     const validateGuess = (word) => {
-        setIsCorrectWord(currentWord.join('') == word.join(''));
+        const isCorrect = currentWord.join('') == word.join('');
+        setIsCorrectWord(isCorrect);
+        return isCorrect;
     };
 
     useEffect(() => {
@@ -39,8 +41,24 @@ const GuessingUI = ({ currentWord, listOfMonsters, maxLength, setHasWon }) => {
                     return;
                 }
                 setGuessHistory(attempt => [...attempt, currentGuess]);
-                validateGuess(currentGuess);
+                setAttemptCount(count => count + 1);
                 setCurrentGuess([]);
+                // validateGuess(currentGuess);
+                // setGuessHistory(attempt => {
+                //     const newHistory = [...attempt, currentGuess];
+                //     setAttemptCount(count => count + 1);
+
+                //     const isCorrect = validateGuess(currentGuess);
+
+                //     if (isCorrect) {
+                //         // setHasWon(true);
+                //     } else if (newHistory.length >= MAX_GUESSES_ALLOWED) {
+                //         // setHasLost(true);
+                //     }
+
+                //     return newHistory;
+                // });
+
             }
             if (e.key === "Backspace") {
                 setCurrentGuess(currentGuess => currentGuess.slice(0, -1));
@@ -108,9 +126,16 @@ const GuessingUI = ({ currentWord, listOfMonsters, maxLength, setHasWon }) => {
         {
             guessHistory.map((guess, index) =>
                 <GuessAttempt key={index}
-                              guess={guess} answer={currentWord} reveal={true}
-                              onComplete={()=>{setHasWon(isCorrectWord)}}
-                              />
+                    guess={guess} answer={currentWord} reveal={true}
+                    onComplete={() => {
+                        const isCorrect = validateGuess(guess);
+                        if (isCorrect) {
+                            setHasWon(true);
+                        } else if (index + 1 >= MAX_GUESSES_ALLOWED) {
+                            setHasLost(true);
+                        }
+                    }}
+                />
             )
         }
         <div className={shakeAnimation ? "shake-animation" : ""}>
