@@ -15,71 +15,74 @@ const Home = () => {
     const [isOpen, setIsOpen] = useState(true);
     const [playAgain, setPlayAgain] = useState(false);
 
-    if (loading) {
-        return <p>Loading...</p>; // Wait until API is ready
-    }
 
-    // If you win or lose, show the popup
-    if (isOpen && (hasWon || hasLost)) {
-        document.body.style.overflow = "hidden"; // Prevent scrolling
-    } else {
-        document.body.style.overflow = "auto"; // Restore scrolling
-    }
-    
-    if (playAgain) {
-        const timer = setTimeout(() => {
-            setHasWon(false);
-            setHasLost(false);
-            setAttemptCount(0);
-            setMaxGuesses(6);
-            setIsOpen(true);
-            setPlayAgain(false); // Reset flag after handling
-        }, 500); // Delay in milliseconds (e.g., 500ms)
+    useEffect(() => {
+        // If you win or lose, show the popup
+        if (isOpen && (hasWon || hasLost)) {
+            // Prevent scrolling
+            document.body.style.overflow = "hidden";
+        } else {
+            // Restore scrolling
+            document.body.style.overflow = "auto";
+        }
+    }, [isOpen, hasWon, hasLost]);
 
-        // Cleanup to avoid memory leaks
-        return () => clearTimeout(timer);
-    }
+
+    useEffect(() => {
+        if (playAgain) {
+            setTimeout(() => {
+                setHasWon(false);
+                setHasLost(false);
+                setAttemptCount(0);
+                setMaxGuesses(6);
+                setIsOpen(true);
+                setPlayAgain(false);
+            }, 500);
+        }
+    }, [playAgain])
 
 
     return (
         <div>
-            {(hasWon || hasLost) &&
-                <div>
-                    {/* Popup component */}
-                    <Popup isOpen={isOpen} onClose={() => setIsOpen(false)}
-                        onPlayAgain={() => { setPlayAgain(true); resetKit.randomize(resetKit.data); setIsOpen(false) }}
-                        className="
+            {loading ? <p>Loading...</p> : (<div>
+                {(hasWon || hasLost) &&
+                    <div>
+                        <Popup isOpen={isOpen} onClose={() => setIsOpen(false)}
+                            onPlayAgain={() => { setPlayAgain(true); resetKit.randomize(resetKit.data); setIsOpen(false) }}
+                            className="
                             absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
                             bg-white border rounded-lg shadow-lg p-6 w-80 bg-white
                         ">
-                        <h2 className="text-xl font-bold">Game Over</h2>
-                        {hasWon && <div>You have won!</div>}
-                        {hasLost && <div>You have lost :(</div>}
-                        <p>The word is: {currentWordDetails.name}</p>
-                    </Popup>
-                </div>
-            }
+                            <h2 className="text-xl font-bold">Game Over</h2>
+                            {hasWon && <div>You have won!</div>}
+                            {hasLost && <div>You have lost :(</div>}
+                            <p>The word is: {currentWordDetails.name}</p>
+                        </Popup>
+                    </div>
+                }
 
-            <div className="flex justify-center">
-                <GuessingUI currentWord={currentWord}
-                    listOfMonsters={listOfMonsters} maxLength={maxLength}
-                    setHasWon={setHasWon}
-                    setHasLost={setHasLost}
-                    setAttemptCount={setAttemptCount}
-                    maxGuesses={maxGuesses}
-                    playAgain={playAgain}
-                />
-            </div>
-            <div className="flex justify-center">
-                <StatUI
-                    currentWordDetails={currentWordDetails}
-                    reveal={hasWon || hasLost}
-                    attemptCount={attemptCount}
-                    maxGuesses={maxGuesses}
-                    playAgain={playAgain}
-                />
-            </div>
-            <ListOfMonsters list={listOfMonsters} />
+                <div className="flex justify-center">
+                    <GuessingUI currentWord={currentWord}
+                        listOfMonsters={listOfMonsters} maxLength={maxLength}
+                        setHasWon={setHasWon}
+                        setHasLost={setHasLost}
+                        setAttemptCount={setAttemptCount}
+                        maxGuesses={maxGuesses}
+                        playAgain={playAgain}
+                    />
+                </div>
+                <div className="flex justify-center">
+                    <StatUI
+                        currentWordDetails={currentWordDetails}
+                        reveal={hasWon || hasLost}
+                        attemptCount={attemptCount}
+                        maxGuesses={maxGuesses}
+                        playAgain={playAgain}
+                    />
+                </div>
+                <ListOfMonsters list={listOfMonsters} />
+            </div>)
+            }
         </div>);
 };
 
