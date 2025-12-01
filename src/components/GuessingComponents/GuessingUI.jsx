@@ -39,7 +39,7 @@ const GuessingUI = ({ currentWord, listOfMonsters,
             setIsControlHeld(false);
             setIsCorrectWord(false);
         }
-    }, [playAgain, setGuessHistory, setCurrentGuess, setLettersTyped, setShowBlinker, setShakeAnimation, setIsControlHeld, setIsControlHeld]);
+    }, [playAgain]);
 
     useEffect(() => {
         const keyPressEvent = (e) => {
