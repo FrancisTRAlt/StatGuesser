@@ -6,8 +6,8 @@ import TraitsAndActions from "./TraitsAndActions";
 import StatToggle from "./HelperComponents/StatToggle";
 import StatHeader from "./StatHeader";
 
-const StatUI = ({ currentWordDetails, reveal, attemptCount, maxGuesses }) => {
-    const [wordDetails, setWordDetails] = useState();
+const StatUI = ({ currentWordDetails, reveal, attemptCount, maxGuesses, playAgain }) => {
+    const [wordDetails, setWordDetails] = useState(null);
 
     const flattingDictionary = (list) => {
         if (!list) return ''; // or return a fallback string
@@ -27,6 +27,12 @@ const StatUI = ({ currentWordDetails, reveal, attemptCount, maxGuesses }) => {
             text => text.toLowerCase() === "of" ? "of" : text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
         );
     }
+
+    useEffect(() => {
+        if (playAgain) {
+            setWordDetails(null)
+        }
+    }, [setWordDetails, playAgain]);
 
     useEffect(() => {
         setWordDetails(currentWordDetails);

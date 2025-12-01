@@ -6,9 +6,31 @@ const useMonster = () => {
   const [currentWordDetails, setCurrentWordDetails] = useState(null);
   const [listOfMonsters, setListOfMonsters] = useState(null);
   const [maxLength, setMaxLength] = useState(null);
+  const [resetKit, setResetKit] = useState({});
 
   const formatWord = (word) => {
     return word.toUpperCase().replace(/[^a-zA-Z]/g, "")
+  };
+
+  const setRandomIndex = async (data) => {
+    // Pick a random monster
+    const randomIndex = Math.floor(Math.random() * data.count);
+    const monsterIndex = data.results[randomIndex].index;
+
+    // Fetch monster details
+    const detailRes = await fetch(
+      `https://www.dnd5eapi.co/api/2014/monsters/${monsterIndex}`
+      // `https://www.dnd5eapi.co/api/2014/monsters/ancient-black-dragon`
+      // `https://www.dnd5eapi.co/api/2014/monsters/wereboar-hybrid`
+      // `https://www.dnd5eapi.co/api/2014/monsters/vampire-mist`
+      // `https://www.dnd5eapi.co/api/2014/monsters/blink-dog`
+    );
+
+    const detailData = await detailRes.json();
+    setCurrentWordDetails(detailData);
+
+    // Format word for guessing UI
+    setCurrentWord(formatWord(detailData.name).split(""));
   };
 
   useEffect(() => {
@@ -18,33 +40,15 @@ const useMonster = () => {
         const res = await fetch("https://www.dnd5eapi.co/api/2014/monsters/");
         const data = await res.json();
 
-        // Pick a random monster
-        const randomIndex = Math.floor(Math.random() * data.count);
         // const word = data.results[randomIndex].name;
-        const index = data.results[randomIndex].index;
 
         // Set up all monster list and max length
         const allMonsters = data.results.map(result => formatWord(result.name));
 
         setListOfMonsters(allMonsters);
         setMaxLength(Math.max(...allMonsters.map(name => name.length)));
-
-        // Format index for API
-        const monsterIndex = index
-
-        // Fetch monster details
-        const detailRes = await fetch(
-          `https://www.dnd5eapi.co/api/2014/monsters/${monsterIndex}`
-          // `https://www.dnd5eapi.co/api/2014/monsters/ancient-black-dragon`
-          // `https://www.dnd5eapi.co/api/2014/monsters/wereboar-hybrid`
-          // `https://www.dnd5eapi.co/api/2014/monsters/vampire-mist`
-          // `https://www.dnd5eapi.co/api/2014/monsters/blink-dog`
-        );
-        const detailData = await detailRes.json();
-        setCurrentWordDetails(detailData);
-
-        // Format word for guessing UI
-        setCurrentWord(formatWord(detailData.name).split(""));
+        setRandomIndex(data);
+        setResetKit({randomize: setRandomIndex, data: data});
       } catch (error) {
         console.error("Error fetching monster:", error);
       } finally {
@@ -55,7 +59,7 @@ const useMonster = () => {
     fetchMonster();
   }, []);
 
-  return { loading, currentWord, currentWordDetails, listOfMonsters, maxLength };
+  return { loading, currentWord, resetKit, currentWordDetails, listOfMonsters, maxLength };
 };
 
 export default useMonster;
