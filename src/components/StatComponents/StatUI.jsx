@@ -39,8 +39,8 @@ const StatUI = ({ currentWordDetails, reveal, attemptCount, maxGuesses, playAgai
 
 
     return (<section className="mt-[2em] px-10 w-[60em] md:w-[80%]">
-        {wordDetails && (<div className="grid grid-cols-2">
-            <div className="flex justify-center col-span-2 mb-4">
+        {wordDetails && (<div className="">
+            <div className="flex justify-center col-span-2 mb-5 border-2 border-solid">
                 <StatHeader
                     reveal={reveal}
                     answer={get("name")}
@@ -49,7 +49,7 @@ const StatUI = ({ currentWordDetails, reveal, attemptCount, maxGuesses, playAgai
                     maxGuesses={maxGuesses}
                 />
             </div>
-            <div className="mr-10">
+            <div className="mr-auto grid lg:grid-cols-4 md:grid-cols-2 gap-4 mt-5">
                 <StatToggle className="mb-3 space-y-1" title={"Stats"}>
                     <HideComponentByAttempt className="mb-3 space-y-1" reveal={reveal} revealAtAttempt={1} attemptCount={attemptCount}>
                         <BasicStats
@@ -69,7 +69,6 @@ const StatUI = ({ currentWordDetails, reveal, attemptCount, maxGuesses, playAgai
                         />
                     </HideComponentByAttempt>
                 </StatToggle>
-
                 <StatToggle className="mb-3 space-y-1" title={"Extra"}>
                     <HideComponentByAttempt className="mb-3 space-y-1" reveal={reveal} revealAtAttempt={2} attemptCount={attemptCount}>
                         <ExtraStats
@@ -85,7 +84,6 @@ const StatUI = ({ currentWordDetails, reveal, attemptCount, maxGuesses, playAgai
                         />
                     </HideComponentByAttempt>
                 </StatToggle>
-
                 <StatToggle className="mb-3 space-y-1" title={"Actions"}>
                     <HideComponentByAttempt className="mb-3 space-y-1" reveal={reveal} revealAtAttempt={4} attemptCount={attemptCount}>
                         <TraitsAndActions
@@ -95,8 +93,6 @@ const StatUI = ({ currentWordDetails, reveal, attemptCount, maxGuesses, playAgai
                         />
                     </HideComponentByAttempt>
                 </StatToggle>
-            </div>
-            <div>
                 <StatToggle className="mb-3 space-y-1" title={"Traits"}>
                     <HideComponentByAttempt className="mb-3 space-y-1" reveal={reveal} revealAtAttempt={5} attemptCount={attemptCount}>
                         <TraitsAndActions
