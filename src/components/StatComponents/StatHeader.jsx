@@ -16,7 +16,7 @@ const StatHeader = ({ reveal, answer, type, attemptCount, maxGuesses }) => {
             <div className="flex items-center space-x-2 order-1">
                 <h2 className="font-[600]">Name:</h2>
                 <CensorAnswer
-                    censor={reveal}
+                    censor={!reveal}
                     answer={answer}
                     description={answer}
                 />

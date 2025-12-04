@@ -45,6 +45,24 @@ const Home = () => {
 
     return (
         <div>
+            <div className="flex justify-center
+            //EXAMPLE:
+            // By default (xs): bg is blue
+                bg-blue-200
+            // When sm or bigger: bg is green
+                sm:bg-green-200
+            // When md or bigger: bg is red
+            // I skipped adding lg so md and lg will also be red
+                md:bg-red-200
+            // When xl: bg is yellow
+            xl:bg-yellow-200
+            ">
+                <div className="xs:block sm:hidden">xs</div>
+                <div className="hidden sm:block md:hidden">small</div>
+                <div className="hidden md:block lg:hidden">medium</div>
+                <div className="hidden lg:block xl:hidden">large</div>
+                <div className="hidden xl:block">xl</div>
+            </div>
             {loading ? <p>Loading...</p> : (<div>
                 {(hasWon || hasLost) &&
                     <div>
@@ -55,7 +73,7 @@ const Home = () => {
                             bg-white border rounded-lg shadow-lg p-6 w-80 bg-white
                         ">
                             <div className="flex flex-col items-center">
-                                
+
                                 <img className="w-20 h-20" src={StatGuesserLogo} alt="" />
                                 <h2 className="text-xl font-bold">{hasWon ? "Congratulations! You won!" : "Oh No!"}</h2>
                                 {hasWon && <div>You have won!</div>}

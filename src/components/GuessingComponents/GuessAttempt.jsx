@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import LetterBlock from "./LetterBlock";
 
+//Completed 100%
 const GuessAttempt = ({ guess, answer, reveal, onComplete }) => {
     
     const validateGuess = useMemo(() => {
@@ -44,8 +45,6 @@ const GuessAttempt = ({ guess, answer, reveal, onComplete }) => {
         return result;
 
     }, [guess, answer, reveal]);
-
-    // useEffect(() => { console.log(validateGuess) }, [reveal])
 
     return (<>
         <span className="flex">

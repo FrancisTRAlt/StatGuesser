@@ -125,11 +125,6 @@ const GuessingUI = ({ currentWord, listOfMonsters,
     }, [currentGuess, setLettersTyped, guessHistory, isCorrectWord]);
 
     return (<div className="guessingUI min-w-[250px] min-h-[250px] max-w-[90%]">
-        {/* <div className="xs:block sm:hidden">xs</div>
-        <div className="hidden sm:block md:hidden">small</div>
-        <div className="hidden md:block lg:hidden">medium</div>
-        <div className="hidden lg:block xl:hidden">large</div>
-        <div className="hidden xl:block">xl</div> */}
         {
             guessHistory.map((guess, index) =>
                 <GuessAttempt key={index}
